@@ -71,7 +71,6 @@ function footer() {
     <footer class="container">
         <p>© 2020-2025 NISHII, Akira. ALL Rights Reserved.</p>
         <p><img src= "${domain}contact.png"> <a href=https://github.com/akinishii><img src="./github-mark.png" alt="My github page" height="30"></a></p>
-        <p class="float-end"><a href="/laboratory/member-jp.html">Return to Laboratory Member Page</a></p>
     </footer>
     `
     document.write(html)
