@@ -1,4 +1,4 @@
-domain = "http://www.rain.hyarc.nagoya-u.ac.jp/~nishii/"
+domain = "https://akinishii.github.io/"
 urlDict = {
     "jp":
         {
