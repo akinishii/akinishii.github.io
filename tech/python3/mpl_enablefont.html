@@ -1,0 +1,76 @@
+<html>
+
+<head>
+
+<title>MatplotlibでTimes New Romanを使えるようにする - NISHII, Akira's Page</title>
+<meta charset="utf-8"></meta>
+<!-- CSSやJSたち -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js?skin=sunburst"></script>
+<link href="../../css/carousel.css" rel="stylesheet">
+
+<script src="../../main.js"></script>
+
+<style>
+.prettyprint ol.linenums > li {
+    list-style-type: decimal; 
+}
+p {margin-left: 25px;}
+</style>
+    
+</head>
+
+<body>
+    
+<script>header("Tech", "jp")</script>
+
+<main style="padding-top: 50pt;">
+
+<div class="container">
+<li><a href="../python3.html">Python3のぺージに戻る</a></li>
+<h2>MatplotlibでTimes New Romanを使えるようにする</h2>
+<p>*他の英字フォントも同様の設定で導入することができる。</br>
+   *anacondaを使っている場合，環境毎に設定する必要がある。</p>
+
+<ol type="1">
+<h4><li>TrueTypeFontファイル(.ttf)を準備する</li></h4>
+<p>Times New Romanのttfファイルを用意する。BoldやItalicも用意するとそれらも使えるようになる。</p>
+<h4><li>Matplotlibのフォントを保存しているディレクトリを調べる。</li></h4>
+<pre class="prettyprint linenums lang-python">
+python3
+>>> import matplotlib
+>>> matplotlib.matplotlib_fname()
+# '/home/user/anaconda3/lib/python3.7/site-packages/matplotlib/mpl-data/matplotlibrc'
+>>> exit()
+</pre>
+<h4><li>${path-to-mpldata}/mpl-data/fonts/ttfにTimes New Romanのttfファイルを保存する。</li></h4>
+<p>以下のコマンドはTimes New Romanのファイル名が"timesnewroman.ttf"であり，<br>
+   ${path-to-mpldata}が/home/user/anaconda3/lib/python3.7/site-packages/matplotlibである場合</p>
+<pre class="prettyprint linenums lang-bash">
+cp timesnewroman*.ttf /home/user/anaconda3/lib/python3.7/site-packages/matplotlib/mpl-data/fonts/ttf/
+</pre>
+<h4><li>~/.cache/matplotlibを削除する。</li></h4>
+<p>matplotlibのキャッシュリスト内にあるフォントリストを更新するために，以下のコマンドでディレクトリごと削除する。<br>
+   フォントリストは次回matplotlib呼び出し時に再生成され，このときにTimes New Romanもフォントリストに加わる。</p>
+<pre class="prettyprint linenums lang-bash">rm -r ~/.cache/matplotlib</pre>
+<h4><li>フォント追加が反映出来ているかどうか確認。</li></h4>
+<p>matplotlibで任意の図を描いてみる。図を描く前に以下のコードでfont.family要素を変更すること。</p>
+<pre class="prettyprint linenums lang-python">plt.rcParams['font.family'] = 'Times New Roman'</pre>
+</ol>
+
+</div>
+
+<div class="container">
+<hr class="featurette-divider">
+</div>
+
+<script>footer()</script>
+
+</main>
+
+</body>
+
+</html>

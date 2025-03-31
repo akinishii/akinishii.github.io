@@ -1,0 +1,216 @@
+<html>
+
+<head>
+
+<title>気象データ解析のためのPython環境構築(Miniforgeを用いてLinuxにインストール) - NISHII, Akira's Page</title>
+<meta charset="utf-8">
+<!-- CSSやJSたち -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js?skin=sunburst"></script>
+<link href="../../css/carousel.css" rel="stylesheet">
+
+<script src="../../main.js"></script>
+
+<style>
+.prettyprint ol.linenums > li {
+    list-style-type: decimal; 
+}
+p {margin-left: 25px;}
+
+.cimg{text-align: center;}
+
+.nomargin{margin-left: 0px;}
+</style>
+    
+</head>
+
+<body>
+    
+<script>header("Tech", "jp")</script>
+
+<main style="padding-top: 50pt;">
+
+<div class="container">
+<li><a href="../python3.html">Python3のぺージに戻る</a></li>
+<h2>気象データ解析のためのPython環境構築(For Linux)</h2>
+<!--<p><a href="install_anacon_py_win.html">*Windowsの方はこちらへ</a></p> -->
+<!--<p><a href="install_anacon_py_mac.html">*Macの方はこちらへ</a></p> -->
+<p><a href="https://github.com/conda-forge/miniforge">Miniforge</a> (旧名: Mambaforge)を使って、condaで管理するPython環境を構築する場合の一例をまとめました。<br>
+   このページではglibc 2.17が入ってない古いOSにインストールする方法を書いてます。<br>
+   *最近のOS(Ubuntu 20.04など)でも同様の手順でインストールできます(2024年9月現在)。<u>ただし最新版のMiniforgeをインストールしてください。</u></p>
+
+<ol type="1">
+<h4><li>Miniforgeをインストールする</li></h4>
+<p><a href="https://github.com/conda-forge/miniforge/releases/tag/24.3.0-0" target="_blank" rel="noopener noreferrer">ここ</a>からMiniforgeのインストーラ(Mambaforge-24.3.0-0-Linux-x86_64.sh)をダウンロードする(Linuxの場合はシェルスクリプト)。<br>
+*最新版の場合は<a href="https://github.com/conda-forge/miniforge" target="_blank" rel="noopener noreferrer">こちらから</a></p>
+<p>ダウンロード後，ターミナル上でインストーラを実行する。</p>
+<pre class="prettyprint linenums lang-bash">
+./Mambaforge-24.3.0-0-Linux-x86_64.sh
+
+#In order to continue the installation process, please review the license
+#agreement.
+#Please, press ENTER to continue
+
+#長いライセンスの話(キーボードのQを押すと飛ばせる)
+
+Do you accept the license terms? [yes|no]
+[no] >>> yes
+</pre>
+<p>"Do you accept ~?"が出たらyes"と入力してライセンスに同意する(さもないと永遠にインストールできない)。</p>
+<pre class="prettyprint linenums:11 lang-bash">
+#Mambaforge will now be installed into this location:
+#/home/nishii/mambaforge
+
+#   - Press ENTER to confirm the location
+#   - Press CTRL-C to abort the installation
+#   - Or specify a different location below
+
+[/home/nishii/mambaforge] >>> 
+</pre>
+<p>Miniforgeのインストール先を確認される。デフォルト(/home/user(ユーザー名)/mambaforge)で良ければ何も打たずにエンターを押す。<br>
+   その他の場所にインストールしたい場合はそのパスを指定する。</p>
+<pre class="prettyprint linenums:19 lang-bash">
+#PREFIX=/misc/Zone1/nishii/mambaforge
+#Unpacking payload ...
+#Extracting _libgcc_mutex-0.1-conda_forge.tar.bz2
+#Extracting ca-certificates-2024.2.2-hbcca054_0.conda
+
+
+#この間，色んなものがインストールされるのでたくさん出力がある。
+
+
+#installation finished.
+#Do you wish to update your shell profile to automatically initialize conda?
+#This will activate conda on startup and change the command prompt when activated.
+#If you'd prefer that conda's base environment not be activated on startup,
+#   run the following command when conda is activated:
+#by running conda init? [yes|no]
+[no] >>> yes
+</pre>
+<p>一番最後にcondaの自動起動を設定するかどうか聞かれる。<u>よく分からないなら"yes"と答えるのが無難(デフォルトではnoになっている)</u>。"yes"にすると~/.bashrcにconda起動に関する設定が保存され，次回ターミナル起動時に自動的にbase環境が起動するようになる。</p>
+<p>インストール後にターミナルを再起動し，先頭に(base)と表示されていればインストール成功している。表示されていない場合，</p>
+<pre class="prettyprint linenums:35 lang-bash">
+source /path/to/miniforge/bin/activate #/path/to/miniforgeはMiniforgeのインストール先に置き換える
+conda init
+</pre>
+<p>とすればyesとした場合と同様の状態になる。ならなければインストール失敗しているので最初からやり直すのがベター。</p>
+
+<p>インストールに成功したらcondaが利用するレポジトリをconda-forgeのみにする。<br>
+   この段階でconda configでチャンネル情報を取得すると2つのチャンネルが入っている。</p>
+<pre class="prettyprint linenums:37 lang-bash">
+conda config --get channels
+# --add channels 'defaults'   # lowest priority
+# --add channels 'conda-forge'   # highest priority
+</pre>
+<p>この内defaultsを削除する。</p>
+<pre class="prettyprint linenums:40 lang-bash">
+conda config --remove channels defaults
+</pre>
+<p>再度チャンネル情報を取得しconda-forgeのみになっていればOK</p>
+<pre class="prettyprint linenums:41 lang-bash">
+conda config --get channels
+--add channels 'conda-forge'   # lowest priority
+</pre>
+   
+
+<h4><li>解析用の仮想環境を構築する</li></h4>
+<p>仮想環境を構築し，必要なライブラリのみをインストールすることでバージョン管理などが容易になる。仮想環境の構築は以下のように実施する。</p>
+<pre class="prettyprint linenums:43 lang-bash">conda create -n lab  python=3.9</pre>
+<p>途中"Proceed ([y]/n)?"ときかれる。yを入力してからエンターを押すと仮想環境構築が始まる。</p>
+<p>この場合"lab"という名前の環境が作られ，環境構築時にpython3.9がインストールされる(labは任意の名前に変えても良い)。
+   -nは環境名を指定するオプション，-cはライブラリのインストール元を指定すオプションである(今回はconda-forgeを使う)。
+</p>
+
+
+<h4><li>構築した仮想環境への移動</li></h4>
+<p>以降，"lab"という仮想環境を作ったものとする。conda activateを実行することで仮想環境に切り替わる。</p>
+<pre class="prettyprint linenums:44 lang-bash">
+(base) conda activate lab
+(lab) #Activateした仮想環境に切り替わる
+</pre>
+
+
+<h4><li>研究に必要なツールのインストトール</li></h4>
+<p>気象データの解析に必要なライブラリをlab環境にインストールする。numpyやmatplotlibなど主要なものは以下のものをインストールする際に依存関係(あるライブラリが動作するために必要なライブラリ)で一緒にインストールされる。</p>
+<p><u>仮想環境がlabであることを確認した後</u>(ターミナルの先頭が(lab)であれば良い)，以下のコマンドを順番に実行する。はconda-forgeからインストールすることを示し，-yはインストールの確認をスキップするオプションである。</p>
+<ul>
+   <li>netCDF4 (ERA5などで使われているデータ形式であるnetCDFを扱うためのライブラリ) <a href="http://unidata.github.io/netcdf4-python/" target="_blank" rel="noopener noreferrer">公式ドキュメント</a></li>
+   <pre class="prettyprint linenums:46 lang-bash">conda install -y netCDF4</pre>
+   <li>cfgrib  (JRA-55などのデータ形式であるGRIBを扱うためのライブラリ) <a href="https://github.com/ecmwf/cfgrib" target="_blank" rel="noopener noreferrer">公式ドキュメント</a>(GitHub)</li>
+   <pre class="prettyprint linenums:47 lang-bash">conda install -y cfgrib</pre>
+   <li>jupyterlab (Pythonの開発・実行環境) <a href="https://docs.jupyter.org/en/latest/" target="_blank" rel="noopener noreferrer">公式ドキュメント</a></li>
+   <pre class="prettyprint linenums:48 lang-bash">conda install -y jupyterlab</pre>
+   <li>metpy (気象データの解析に特化したライブラリ) <a href="https://unidata.github.io/MetPy/latest/index.html" target="_blank" rel="noopener noreferrer">公式ドキュメント</a></li>
+   <pre class="prettyprint linenums:49 lang-bash">conda install -y metpy</pre>
+</ul>
+
+<h4><li>ライブラリがインストールできたかどうか確認する</li></h4>
+<p>ここではpython3のインタラクティブモードでライブラリをインポートすることにより確認する。 *#はコメント(入力しなくて良い)</p>
+<pre class="prettyprint linenums:50 lang-python">
+(lab) python3
+#Python 3.9.10 | packaged by conda-forge | (main, Feb 1 2022, 21:24:11)
+#[GCC 9.4.0] on linux
+#Type "help", "copyright", "credits" or "license" for more information.
+>>> import numpy
+>>> import matplotlib
+>>> import pandas
+>>> import xarray
+>>> import cfgrib
+>>> import metpy
+>>> import netCDF4
+>>> exit() #インタラクティブモードを終了する。
+</pre>
+<p>エラーメッセージ等が表示されなければインストールが成功している。</p>
+<p>"ModuleNotFoundError: No module named ライブラリ名" とエラーが出てきた場合，そのライブラリを再度conda installによりインストールしてからもう一度確認してみる。</p>
+
+
+<h4><li>その他(以下の設定は任意)</li></h4>
+<h5>・ターミナル起動時にbase環境ではなく解析環境を起動させる</h5>
+<p>デフォルトではターミナルを開いた際に(base)環境が起動するようになっている。最初から解析環境を起動させたい場合は~/.bashrcの最後に以下の行を追加する。</p>
+<pre class="prettyprint linenums lang-python">
+conda activate lab #labは任意の仮想環境名
+</pre>
+<p>これによりターミナル起動時に"conda acitvate lab"が実行されるようになる。ターミナルを再起動すると最初からlab環境になっているはず。</p>
+
+<h5>・ターミナル起動時にcondaを起動しないようにする</h5>
+<p>デフォルトではターミナルを開いた際に自動でcondaが起動する。自動で起動させないようにするためには以下のコマンドを実行する。</p>
+<pre class="prettyprint linenums:2 lang-python">conda config --set auto_activate_base false</pre>
+<p>これで次回ターミナル起動時から自動でcondaが起動しなくなる。起動する場合</p>
+<pre class="prettyprint linenums:3 lang-python">
+conda activate
+(base) #conda起動
+</pre>
+<p>とすることでcondaが起動する。逆に自動起動を有効にしたい場合は</p>
+<pre class="prettyprint linenums:5 lang-python">conda config --set auto_activate_base True</pre>
+<p>とすると，次回以降自動でcondaが起動するようになる。</p>
+
+<h5>・その他気象データ解析に使いそうなライブラリのインストール</h5>
+<p>以下は必要に応じてインストールしてください</p>
+<ul>
+   <li>Py-ART: 気象レーダデータ解析・可視化ライブラリ<a href="https://arm-doe.github.io/pyart/notebook-gallery.html" target="_blank" rel="noopener noreferrer">公式ドキュメント</a></li>
+   <p>*日本のレーダデータを処理するにはCF-Radial形式等に変換をする必要がある。</p>
+   <pre class="prettyprint lang-bash">conda install -y arm_pyart</pre>
+   <li>PyBufrKit: PythonでBUFRフォーマットのデータ(気象庁ウィンドプロファイラ等)をデコードする <a href="https://pybufrkit.readthedocs.io/en/latest/" target="_blank" rel="noopener noreferrer">公式ドキュメント</a></li>
+   <p>conda-forgeにないのでpipからインストールする</p>
+   <pre class="prettyprint lang-bash">pip install pybufrkit</pre>
+   <li>Satpy: 衛星データの処理・可視化ライブラリ <a href="https://satpy.readthedocs.io/en/stable/index.html" target="_blank" rel="noopener noreferrer">公式ドキュメント</a></li></li>
+   <pre class="prettyprint lang-bash">conda install -y satpy</pre>
+</ul>
+
+</ol>
+</div>
+
+<div class="container">
+<hr class="featurette-divider">
+</div>
+
+<script>footer()</script>
+
+</main>
+
+</body>
+
+</html>

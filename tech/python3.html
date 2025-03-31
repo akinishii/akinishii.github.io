@@ -1,0 +1,111 @@
+<html>
+
+<head>
+
+<title>Python3 - NISHII, Akira's Page</title>
+<meta charset="utf-8"></meta>
+<!-- CSSやJSたち -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js?skin=sunburst"></script>
+<link href="../css/carousel.css" rel="stylesheet">
+
+<script src="../main.js"></script>
+
+<style>
+.prettyprint ol.linenums > li {
+    list-style-type: decimal; 
+}
+h4{border-left:18px solid #E0F0E0;
+   padding:.2em;
+}
+a.anc {
+    display: block;
+    padding-top: 100px;
+    margin-top: -100px;
+}
+p {margin-left: 25px;}
+</style>
+    
+</head>
+
+<body>
+    
+<script>header("Tech", "jp")</script>
+
+<main style="padding-top: 50pt;">
+
+<div class="container">
+
+<h1>Python3</h1>
+
+<ou>
+<li><a href="./python3/install_miniforge_py.html">気象データ解析のためのPython環境構築(Linuxのみ。別ページ)</a></li>
+<li><a href="./python3/jupylab_tutorial.html">Jupyter Labの使い方(超簡易版)(別ページ)</a></li>
+<li><a href="./python3/mpl_enablefont.html">MatplotlibでTimes New Romanを使えるようにする(別ページ)</a></li>
+<li><a href="#002">conda仮想環境の構築</a></li>
+<li><a href="#003">conda仮想環境の切り替え</a></li>
+<li><a href="#004">conda-forgeの追加</a></li>
+<li><a href="#005">condaを利用したモジュールのインストール</a></li>
+<li><a href="#006">conda内に存在する環境を確認する</a></li>
+</ou>
+
+<hr class="featurette-divider">
+
+<h4>conda仮想環境の構築(使用するPythonのバージョンを3.9にする場合)</h4>
+<a id="002" class="anc"></a>
+<pre class="prettyprint linenums lang-bash">conda create -n env-name -c channel-name python=3.9</pre>
+<p>"env-name"には任意の環境名を，channel-nameにはインストール元のchannel名を入れる。例えば，</p>
+<pre class="prettyprint linenums lang-bash">conda create -n lab python=3.9</pre>
+<p>とすると，"lab"という名前の仮想環境を作り，必要なライブラリをconda-forgeからインストールする。</p>
+
+<h4>仮想環境の切り替え</h4>
+<a id="003" class="anc"></a>
+<pre class="prettyprint linenums lang-bash">
+(base) conda activate 環境名
+(環境名) #Activateした仮想環境に切り替わる
+</pre>
+<p>*baseに戻る場合</p>
+<pre class="prettyprint linenums lang-bash">
+(env-name) conda deactivate
+(base) #base環境に戻る
+</pre>
+
+<h4>conda-forgeの追加</h4>
+<a id="004" class="anc"></a>
+<pre class="prettyprint linenums lang-bash">conda config --add channels conda-forge</pre>
+<p>このコマンドを実行すると，<u>conda-forge内のパッケージを最優先で</u>インストールするようになる(i.e., highest-priorityになる)。</p>
+<p>既存のチャンネルの優先順位を保持したい場合，以下のコマンドでチャンネルを追加する。</p>
+<pre class="prettyprint linenums lang-bash">conda config --append channels conda-forge</pre>
+
+<h4>condaを利用したライブラリのインストール(Cartopyをインストールする場合)</h4>
+<a id="005" class="anc"></a>
+<pre class="prettyprint linenums lang-bash">conda install cartopy</pre>
+<p>バージョンを指定したい場合は以下のように，パッケージ名の後に"="とバージョン番号を付け足す(以下の例はOpenCVの場合)</p>
+<pre class="prettyprint linenums lang-bash">conda install opencv=3.4.9</pre>
+
+<h4>conda内に存在する仮想環境を確認する</h4>
+<a id="006" class="anc"></a>
+<pre class="prettyprint linenums lang-bash">
+(lab) conda env list
+# conda environments:
+#
+base                     /home/user/anaconda3
+lab                   *  /home/user/anaconda3/envs/lab
+</pre>
+<p>condaで作成された仮想環境とそれらのパスが表示される。</p>
+</div>
+
+<div class="container">
+<hr class="featurette-divider">
+</div>
+
+<script>footer()</script>
+
+</main>
+
+</body>
+
+</html>

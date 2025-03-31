@@ -1,0 +1,129 @@
+<html>
+
+<head>
+
+<title>Jupyter Labの使い方(超簡易版) - NISHII, Akira's Page</title>
+<meta charset="utf-8"></meta>
+<!-- CSSやJSたち -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js?skin=sunburst"></script>
+<link href="../../css/carousel.css" rel="stylesheet">
+
+<script src="../../main.js"></script>
+
+<style>
+.prettyprint ol.linenums > li {
+    list-style-type: decimal; 
+}
+p {margin-left: 25px;}
+
+.cimg{text-align: center;}
+
+.nomagin{margin-left: 0px;}
+
+h4{border-left:18px solid #E0F0E0;
+   padding:.2em;
+}
+
+a.anc {
+    display: block;
+    padding-top: 100px;
+    margin-top: -100px;
+}
+
+</style>
+    
+</head>
+
+<body>
+    
+<script>header("Tech", "jp")</script>
+
+<main style="padding-top: 50pt;">
+
+<div class="container">
+<li><a href="../python3.html">Python3のぺージに戻る</a></li>
+<h2>Jupyter Labの使い方(超簡易版)</h2>
+<p class="nomagin">Jupyter LabでとりあえずIPython Notebook(.ipynb)を動かすための最低限の解説です。</p>
+<p class="nomagin">詳しい使い方は検索したり<a href="https://docs.jupyter.org/en/latest/" target="_blank" rel="noopener noreferrer">公式ドキュメント</a>を確認したりしてください。Jupyter Labの前世代であるJupyter Notebookの情報も概ね参考にできます。</p>
+
+<ou>
+   <li><a href="#001">Jupyter Labの起動</a></li>
+   <li><a href="#002">ファイルを開く</a></li>
+   <li><a href="#003">セルの実行</a></li>
+   <li><a href="#004">オブジェクトの中身を確認する</a></li>
+   <li><a href="#005">Jupyter Labを終了する</a></li>
+</ou>
+   
+<h4>Jupyter Labの起動</h4>
+<a id="001" class="anc"></a>
+<p>表示したいファイルがあるディレクトリに移動した後，以下のコマンドを実行すると起動する</p>
+<pre class="prettyprint linenums lang-bash">
+jupyter lab
+#色々なメッセージが表示されたのち，ウェブブラウザ上でJupyter Labが起動する
+#Jupyter Labを終了するまではこのターミナルは操作できなくなる
+</pre>
+
+<div class="cimg">
+   <img src="./jupylab_tutorial_fig/jpt_001.jpg" width=900>
+   <p class="nomagin">左赤枠内にターミナル上の現在のディレクトリの中身が表示されていれば起動成功</p>
+</div>
+
+<h4>ファイルを開く</h4>
+<a id="002" class="anc"></a>
+<p>ファイル名をクリックするとJupyter Lab上の新しいタブで.ipynbファイルが開く</p>
+<div class="cimg">
+   <img src="./jupylab_tutorial_fig/jpt_010.jpg" width=900>
+   <p class="nomagin">青線の入っているところが現在参照しているセル</p>
+</div>
+
+<h4>セルの実行</h4>
+<a id="003" class="anc"></a>
+<p>Shift + Enterで青線の入った部分のセル(ソースコードを任意に分割したうちの一部)を実行する</p>
+<div class="cimg">
+   <img src="./jupylab_tutorial_fig/jpt_002.jpg" width=900>
+   <p class="nomagin">Shift + Enterで青線の引いてあるセルを実行する</p>
+   <img src="./jupylab_tutorial_fig/jpt_003.jpg" width=900>
+   <p class="nomagin">[ ](赤枠内)に数字が付いたら実行成功，エラーの場合セルの下にメッセ―ジが表示される</p>
+   <img src="./jupylab_tutorial_fig/jpt_004.jpg" width=900>
+   <p class="nomagin">実行したセルに図を描画するコード(plt.figureなど)が含まれている場合<br>図の描画結果もセルの下に表示される</p>
+</div>
+
+<h4>オブジェクトの中身を確認する</h4>
+<a id="004" class="anc"></a>
+<p>セルの一番最後が変数名になっていると，以下のようにオブジェクト(変数)の中身も表示される</p>
+<div class="cimg">
+   <img src="./jupylab_tutorial_fig/jpt_005.jpg" width=900>
+   <p class="nomagin">Sondeオブジェクト(pd.DataFrame)の中身が表形式で出力される</p>
+   <img src="./jupylab_tutorial_fig/jpt_006.jpg" width=900>
+   <p class="nomagin">変数に入っている値も見ることができる，未定義だとエラーになる</p>
+</div>
+
+<h4>Jupyter Labを終了する</h4>
+<a id="005" class="anc"></a>
+<p>Fileタブ->Shut Down(一番下)によりJupyter Labを終了できる。終了後はタブを閉じる</p>
+<div class="cimg">
+   <img src="./jupylab_tutorial_fig/jpt_007.jpg" width=900>
+   <p class="nomagin">Fileタブの一番下の"Shut Down"を選択</p>
+   <img src="./jupylab_tutorial_fig/jpt_008.jpg" width=900>
+   <p class="nomagin">この画面が表示されればシャットダウン成功，このブラウザは閉じてよい<br>*この画面なしでそのままブラウザが終了することもある</p>
+   <img src="./jupylab_tutorial_fig/jpt_009.jpg" width=700>
+   <p class="nomagin">ターミナルを再び操作できるようになる</p>
+</div>
+
+</div>
+
+<div class="container">
+<hr class="featurette-divider">
+</div>
+
+<script>footer()</script>
+
+</main>
+
+</body>
+
+</html>

@@ -1,0 +1,76 @@
+<html>
+
+<head>
+
+<title>Bash - NISHII, Akira's Page</title>
+<meta charset="utf-8"></meta>
+<!-- CSSやJSたち ここから-->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js?skin=sunburst"></script>
+<link href="../css/carousel.css" rel="stylesheet">
+
+<script src="../main.js"></script>
+<!-- CSSやJSたち ここまで-->
+
+<style>
+.prettyprint ol.linenums > li {
+    list-style-type: decimal; 
+}
+</style>
+    
+</head>
+
+<body>
+    
+<script>header("Tech", "jp")</script>
+
+<main style="padding-top: 50pt;">
+
+<!--ぺージのコンテンツここから-->
+<div class="container">
+
+<h1>Bash</h1>
+
+<ou>
+<li><a href="#001">複数行にわたるテキストやコードを生成する</a></li>
+
+</ou>
+
+<hr class="featurette-divider">
+<ul>
+<h4 id="001"><li>複数行にわたるテキストやコードを生成する</li></h4>
+<p>ヒアドキュメント(<a href=https://ja.wikipedia.org/wiki/%E3%83%92%E3%82%A2%E3%83%89%E3%82%AD%E3%83%A5%E3%83%A1%E3%83%B3%E3%83%88>詳細(Wiki)</a>)を使う。</p>
+<pre class="prettyprint linenums lang-bash">
+cat << EOF > hoge.gs
+'open hoge.ctl'
+'set gxout shaded'
+'set lat 32.5 34.5'
+'set lon 132 134'
+'d cum'
+'printim hoge.jpg'
+'reinit'
+'quit'
+
+EOF
+</pre>
+<p>EOFで囲まれた部分(最後の空行も含めて)がhoge.gsに書き込まれる。<br>
+
+
+</ul>
+</div>
+<!--ぺージのコンテンツここまで-->
+
+<div class="container">
+<hr class="featurette-divider">
+</div>
+
+<script>footer()</script>
+
+</main>
+
+</body>
+
+</html>

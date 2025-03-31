@@ -1,0 +1,159 @@
+<html>
+
+<head>
+
+<title>Linux関係 - NISHII, Akira's Page</title>
+<meta charset="utf-8"></meta>
+<!-- CSSやJSたち -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js?skin=sunburst"></script>
+<link href="../css/carousel.css" rel="stylesheet">
+
+<script src="../main.js"></script>
+
+<style>
+.prettyprint ol.linenums > li {
+    list-style-type: decimal; 
+}
+h4{border-left:18px solid #E0F0E0;
+   padding:.2em;
+}
+a.anc {
+    display: block;
+    padding-top: 100px;
+    margin-top: -100px;
+}
+p {margin-left: 25px;}
+</style>
+    
+</head>
+
+<body>
+    
+<script>header("Tech", "jp")</script>
+
+<main style="padding-top: 50pt;">
+
+<div class="container">
+
+<h1>Linux関係(主にUbuntu)</h1>
+
+<ou>
+<li><a href="#001">ホームディレクトリの名称(デスクトップ等)を日本語から英語に変更する</a></li>
+<li><a href="#002">ディレクトリ内を検索する</a></li>
+<li><a href="#003">VSCodeのインストール</a></li>
+<li><a href="#004">Ubuntu 20.04LTSで古い認証方法(Diffie-Hellman key exchange sha1)を有効にする</a></li>
+<li><a href="#005">Ubuntuにおけるbash_profileについて</a></li>
+<li><a href="#006">ImageMagick6でepsやpsファイルを扱えるようにする</a></li>
+<li><a href="#007">ターミナルを開き直さずに~/.bashrcの変更内容を反映する<a></li>
+<li><a href="#008">lsで特定の名前のついたファイルを検索する</a></li>
+<li><a href="#009">~/.ssh/configに接続先を登録する</a></li>
+</ou>
+
+<hr class="featurette-divider">
+
+<h4>ホームディレクトリの名称(デスクトップ等)を日本語から英語に変更する</h4>
+<a id="001" class="anc"></a>
+<pre class="prettyprint linenums lang-bash">
+LANG=C xdg-user-dirs-gtk-update
+</pre>
+<p>ウィンドウが表示されるので，"Don't ask me this again"にチェックした後"Update Names"をクリック。</p>
+
+<h4>ディレクトリ内を検索する</h4>
+<a id="002" class="anc"></a>
+<pre class="prettyprint linenums lang-bash">find ファイル名</pre>
+
+<h4>VSCode(Visual Studio Code)のインストール</h4>
+<a id="003" class="anc"></a>
+<p>Microsoft提供のテキストエディタ。(個人的には)VimやEmacsよりかなり使いやすい。<br>
+   Snapからインストールする(Ubuntu 20.04LTSではデフォルトで使える)。</p>
+<pre class="prettyprint linenums lang-bash">sudo snap install --classic code</pre>
+<p>*Snapが使えない場合，<a href=https://code.visualstudio.com/docs/setup/linux>ここ</a>を参考にインストールする。</p>
+
+<h4>Ubuntu 20.04LTSで古い認証方法(Diffie-Hellman key exchange sha1)を有効にする</h4>
+<a id="004" class="anc"></a>
+<p>Ubuntu 20.04LTSだと古い方式がデフォルトで認証されず，古いサーバにログインできないことがある。
+しかし，~/.ssh/configに以下の設定を書き足すことでログインできるようになる。</p>
+<pre class="prettyprint linenums lang-bash">
+Host サーバ名
+KexAlgorithms diffie-hellman-group-exchange-sha1,diffie-hellman-group14-sha1,diffie-hellman-group1-sha1</pre>
+<p>*サーバ名は適切な名前に置き換えること。</p>
+
+<h4>Ubuntuにおけるbash_profileについて</h4>
+<a id="005" class="anc"></a>
+<p>Ubuntuでは(Bashがデフォルトの場合)ログイン時に実行される~/.bash_profileや~/.profileがデフォルトでは実行されない。
+したがって，環境変数などの設定は基本的に~/.bashrcに書くようにする。</p>
+
+<h4>ImageMagick6でepsやpsファイルを扱えるようにする</h4>
+<a id="006" class="anc"></a>
+<p>インストール直後のImageMagick(バージョン6以上)でeps等をjpg等に変換しようとすると以下のエラーが表示される。</p>
+<pre class="prettyprint linenums lang-bash">
+convert -density 200 -rotate +90 -flatten hoge.ps hoge.png 
+# convert-im6.q16: attempt to perform an operation not allowed by the security policy `PS' @ error/constitute.c/IsCoderAuthorized/408.
+# convert-im6.q16: no images defined `japan.png' @ error/convert.c/ConvertImageCommand/3258.
+</pre>
+<p>これは，ImageMagickのセキュリティ設定により，デフォルトではps形式やeps形式の処理を禁止しているためである。<br>
+これらを処理するためには，/etc/ImageMagick-6/policy.xmlのpsやepsに関する権限(rights)を以下のとおり変更する必要がある。<br>
+*policy.xmlを変更する際には，管理者権限で(i.e., スーパーユーザーやsudoを使って)テキストエディタを開くこと。</p>
+<pre class="prettyprint linenums:88 lang-xml">
+# /etc/ImageMagick-6/policy.xml 90行目付近
+&lt;!-- disable ghostscript format types --&gt;
+&lt;policy domain="coder" rights="read|write" pattern="PS" /&gt;  &lt;!-- rightsを"none"から"read|write"に書き換える --&gt;
+&lt;policy domain="coder" rights="none" pattern="PS2" /&gt;
+&lt;policy domain="coder" rights="none" pattern="PS3" /&gt;
+&lt;policy domain="coder" rights="read|write" pattern="EPS" /&gt; &lt;!-- rightsを"none"から"read|write"に書き換える --&gt;
+&lt;policy domain="coder" rights="none" pattern="PDF" /&gt;
+&lt;policy domain="coder" rights="none" pattern="XPS" /&gt;
+</pre>
+<p>policy.xmlを保存した後，先程のconvertコマンドを実行すると正常に変換が行われる(はず)。</p>
+
+<h4>ターミナルを開き直さずに~/.bashrcの変更内容を反映する</h4>
+<a id="007" class="anc"></a>
+<p>~/.bashrcはターミナルを起動時にのみ読み込まれる。したがって，~/.bashrcを保存したらすぐその変更が反映されるわけではない</p>
+<p>ターミナルを再起動せず(開き直さず)に変更内容をターミナルに反映したい場合，sourceコマンドを実行する。</p>
+<pre class="prettyprint linenums lang-xml"> source ~/.bashrc </pre>
+
+<h4>lsで特定の名前のついたファイルを検索する</h4>
+<a id="008" class="anc"></a>
+<p>lsの標準出力をパイプでgrepに渡すことで，特定の名前のついたファイルのみのリストを表示する。</p>
+<pre class="prettyprint linenums:2 lang-bash">ls | grep 特定の名前</pre> 
+<p>例えば，lsの結果からjpgファイルのみを出力したい場合は</p>
+<pre class="prettyprint linenums:3 lang-bash">
+ls | grep .jpg
+
+# hoge.jpg
+# huga.jpg
+</pre>
+<p>とすれば，ディレクトリ内にあるファイルの内jpgファイルのみを抽出できる。</p>
+
+<h4>~/.ssh/configに接続先を登録する</h4>
+<a id="009" class="anc"></a>
+<p>SSH先のアドレスが複雑だったりログインする際に色々なオプションを付けりする必要がある場合，コマンドが長くなってしまう。</p>
+<p>そんなときは~/.ssh/config (/home/ユーザー名/.ssh/config)に接続先情報を登録してしまうと便利。接続先の情報を以下のように登録する。</p>
+<pre class="prettyprint linenums lang-bash">
+Host hoge-type1
+    Hostname hogehoge.hugahuga.nagoya-u.ac.jp
+    User hogege
+    IdentityFile ~/.ssh/keyhoge
+</pre>
+<p>と入力して保存しておくと，次回から</p>
+<pre class="prettyprint linenums:5 lang-bash">ssh -X hoge-type1</pre>
+<p>とするだけでリモート先に公開鍵認証を用いて入ることができる。これは</p>
+<pre class="prettyprint linenums:6 lang-bash">ssh -X -i ~/.ssh/keyhoge hogege@hogehoge.hugahuga.nagoya-u.ac.jp</pre>
+<p>と入力してログインすることと同じである。</p>
+
+</ul>
+<div class="container">
+<hr class="featurette-divider">
+</div>
+
+<script>footer()</script>
+
+</main>
+
+</body>
+
+</html>
