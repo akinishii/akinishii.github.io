@@ -1,0 +1,335 @@
+[
+  {
+    "name": "ANJOU",
+    "lat": 34.89083333333333,
+    "lon": 137.06777777777776,
+    "height": 25.0,
+    "frequency": "X",
+    "obsradius_km": 80,
+    "obsradius_hq_km": 60
+  },
+  {
+    "name": "BISAI",
+    "lat": 35.29944444444444,
+    "lon": 136.73444444444442,
+    "height": 62.0,
+    "frequency": "X",
+    "obsradius_km": 80,
+    "obsradius_hq_km": 60
+  },
+  {
+    "name": "DATE",
+    "lat": 37.85111111111111,
+    "lon": 140.5638888888889,
+    "height": 68.3,
+    "frequency": "X",
+    "obsradius_km": 80,
+    "obsradius_hq_km": 60
+  },
+  {
+    "name": "FUJINOMIYA",
+    "lat": 35.24055555555556,
+    "lon": 138.61666666666667,
+    "height": 208.8,
+    "frequency": "X",
+    "obsradius_km": 80,
+    "obsradius_hq_km": 60
+  },
+  {
+    "name": "FUNABASHI",
+    "lat": 35.69583333333333,
+    "lon": 140.00722222222223,
+    "height": 87.9,
+    "frequency": "X",
+    "obsradius_km": 80,
+    "obsradius_hq_km": 60
+  },
+  {
+    "name": "FURUTSUKI",
+    "lat": 33.805,
+    "lon": 130.64138888888888,
+    "height": 216.0,
+    "frequency": "X",
+    "obsradius_km": 80,
+    "obsradius_hq_km": 60
+  },
+  {
+    "name": "HAMAMATSU",
+    "lat": 34.72888888888889,
+    "lon": 137.81194444444446,
+    "height": 40.5,
+    "frequency": "X",
+    "obsradius_km": 80,
+    "obsradius_hq_km": 60
+  },
+  {
+    "name": "ISHIKARI",
+    "lat": 43.20055555555556,
+    "lon": 141.33194444444445,
+    "height": 52.7,
+    "frequency": "X",
+    "obsradius_km": 80,
+    "obsradius_hq_km": 60
+  },
+  {
+    "name": "IWANUMA",
+    "lat": 38.077222222222225,
+    "lon": 140.86222222222221,
+    "height": 31.9,
+    "frequency": "X",
+    "obsradius_km": 80,
+    "obsradius_hq_km": 60
+  },
+  {
+    "name": "KANTOU",
+    "lat": 35.89083333333333,
+    "lon": 139.6338888888889,
+    "height": 171.2,
+    "frequency": "X",
+    "obsradius_km": 80,
+    "obsradius_hq_km": 60
+  },
+  {
+    "name": "KANUKI",
+    "lat": 35.0925,
+    "lon": 138.8777777777778,
+    "height": 209.5,
+    "frequency": "X",
+    "obsradius_km": 80,
+    "obsradius_hq_km": 60
+  },
+  {
+    "name": "KATSURAGI",
+    "lat": 34.34777777777778,
+    "lon": 135.43722222222223,
+    "height": 874.0,
+    "frequency": "X",
+    "obsradius_km": 80,
+    "obsradius_hq_km": 60
+  },
+  {
+    "name": "KAZASI",
+    "lat": 33.93277777777777,
+    "lon": 130.95694444444445,
+    "height": 318.0,
+    "frequency": "X",
+    "obsradius_km": 80,
+    "obsradius_hq_km": 60
+  },
+  {
+    "name": "KITAHIRO",
+    "lat": 42.99611111111111,
+    "lon": 141.58444444444444,
+    "height": 24.8,
+    "frequency": "X",
+    "obsradius_km": 80,
+    "obsradius_hq_km": 60
+  },
+  {
+    "name": "KUMAYAMA",
+    "lat": 34.7575,
+    "lon": 134.1186111111111,
+    "height": 538.74,
+    "frequency": "X",
+    "obsradius_km": 80,
+    "obsradius_hq_km": 60
+  },
+  {
+    "name": "KUSENBU",
+    "lat": 33.41916666666666,
+    "lon": 130.44861111111112,
+    "height": 824.0,
+    "frequency": "X",
+    "obsradius_km": 80,
+    "obsradius_hq_km": 60
+  },
+  {
+    "name": "KYOUGASE",
+    "lat": 37.82138888888889,
+    "lon": 139.165,
+    "height": 24.2,
+    "frequency": "X",
+    "obsradius_km": 80,
+    "obsradius_hq_km": 60
+  },
+  {
+    "name": "MIZUHASHI",
+    "lat": 36.705555555555556,
+    "lon": 137.27861111111113,
+    "height": 35.0,
+    "frequency": "X",
+    "obsradius_km": 80,
+    "obsradius_hq_km": 60
+  },
+  {
+    "name": "MORIOKA",
+    "lat": 39.75472222222222,
+    "lon": 141.14583333333331,
+    "height": 230.0,
+    "frequency": "X",
+    "obsradius_km": 80,
+    "obsradius_hq_km": 60
+  },
+  {
+    "name": "NAKANOKUTI",
+    "lat": 37.63138888888889,
+    "lon": 138.9188888888889,
+    "height": 67.45,
+    "frequency": "X",
+    "obsradius_km": 80,
+    "obsradius_hq_km": 60
+  },
+  {
+    "name": "NOGAIBARA",
+    "lat": 34.37305555555555,
+    "lon": 132.27666666666667,
+    "height": 761.24,
+    "frequency": "X",
+    "obsradius_km": 80,
+    "obsradius_hq_km": 60
+  },
+  {
+    "name": "NOUMI",
+    "lat": 36.45888888888889,
+    "lon": 136.5525,
+    "height": 49.0,
+    "frequency": "X",
+    "obsradius_km": 80,
+    "obsradius_hq_km": 60
+  },
+  {
+    "name": "ROKKO",
+    "lat": 34.769999999999996,
+    "lon": 135.26194444444445,
+    "height": 903.0,
+    "frequency": "X",
+    "obsradius_km": 80,
+    "obsradius_hq_km": 60
+  },
+  {
+    "name": "SAKURAJIMA",
+    "lat": 31.488333333333333,
+    "lon": 130.69583333333333,
+    "height": 24.0,
+    "frequency": "X",
+    "obsradius_km": 80,
+    "obsradius_hq_km": 60
+  },
+  {
+    "name": "SHINYOKO",
+    "lat": 35.5125,
+    "lon": 139.5991666666667,
+    "height": 65.0,
+    "frequency": "X",
+    "obsradius_km": 80,
+    "obsradius_hq_km": 60
+  },
+  {
+    "name": "SHIZUKITA",
+    "lat": 34.96944444444445,
+    "lon": 138.36416666666665,
+    "height": 73.0,
+    "frequency": "X",
+    "obsradius_km": 80,
+    "obsradius_hq_km": 60
+  },
+  {
+    "name": "SUGADAKE",
+    "lat": 33.65888888888889,
+    "lon": 130.57444444444445,
+    "height": 623.0,
+    "frequency": "X",
+    "obsradius_km": 80,
+    "obsradius_hq_km": 60
+  },
+  {
+    "name": "SUZUKA",
+    "lat": 34.90833333333333,
+    "lon": 136.5975,
+    "height": 42.0,
+    "frequency": "X",
+    "obsradius_km": 80,
+    "obsradius_hq_km": 60
+  },
+  {
+    "name": "TAKANOSU",
+    "lat": 40.2325,
+    "lon": 140.36083333333332,
+    "height": 40.8,
+    "frequency": "X",
+    "obsradius_km": 80,
+    "obsradius_hq_km": 60
+  },
+  {
+    "name": "TAMURA",
+    "lat": 37.42611111111111,
+    "lon": 140.56777777777776,
+    "height": 750.8,
+    "frequency": "X",
+    "obsradius_km": 80,
+    "obsradius_hq_km": 60
+  },
+  {
+    "name": "TANOKUCHI",
+    "lat": 34.825833333333335,
+    "lon": 135.69222222222223,
+    "height": 96.0,
+    "frequency": "X",
+    "obsradius_km": 80,
+    "obsradius_hq_km": 60
+  },
+  {
+    "name": "TSUNEYAMA",
+    "lat": 34.525,
+    "lon": 133.88694444444442,
+    "height": 339.74,
+    "frequency": "X",
+    "obsradius_km": 80,
+    "obsradius_hq_km": 60
+  },
+  {
+    "name": "UJIIE",
+    "lat": 36.68416666666666,
+    "lon": 139.9475,
+    "height": 197.0,
+    "frequency": "X",
+    "obsradius_km": 80,
+    "obsradius_hq_km": 60
+  },
+  {
+    "name": "UKI",
+    "lat": 32.66861111111111,
+    "lon": 130.61694444444444,
+    "height": 445.0,
+    "frequency": "X",
+    "obsradius_km": 80,
+    "obsradius_hq_km": 60
+  },
+  {
+    "name": "USHIO",
+    "lat": 34.505,
+    "lon": 132.55,
+    "height": 796.94,
+    "frequency": "X",
+    "obsradius_km": 80,
+    "obsradius_hq_km": 60
+  },
+  {
+    "name": "WAKUYA",
+    "lat": 38.55833333333333,
+    "lon": 141.17777777777778,
+    "height": 249.7,
+    "frequency": "X",
+    "obsradius_km": 80,
+    "obsradius_hq_km": 60
+  },
+  {
+    "name": "YAMAGA",
+    "lat": 33.01083333333333,
+    "lon": 130.6927777777778,
+    "height": 89.09,
+    "frequency": "X",
+    "obsradius_km": 80,
+    "obsradius_hq_km": 60
+  }
+]

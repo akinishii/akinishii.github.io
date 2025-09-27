@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>日本の気象レーダーマップ</title>
+    <!-- LeafletのCSSを読み込み -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" 
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" 
+    crossorigin="" />
+    <!-- LeafletのJavaScriptを読み込み -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" 
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" 
+    crossorigin=""></script>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        body {padding: 0; margin: 0}
+        html, body, #map {height: 100%; width: 100%;}
+        .crosshair {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 16px;
+            height: 16px;
+            margin-left: -8px;
+            margin-top: -8px;
+            z-index: 1000;
+            pointer-events: none; /* マウスイベントを透過させる */
+        }
+        .crosshair::before,
+        .crosshair::after {
+            content: '';
+            position: absolute;
+            background-color: black;
+        }
+        .crosshair::before {
+            width: 2px;
+            height: 18px;
+            left: 8px;
+        }
+        .crosshair::after {
+            width: 18px;
+            height: 2px;
+            top: 8px;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100 p-8 flex flex-col items-center justify-center min-h-screen">
+
+    <div class="container mx-auto p-6 bg-white rounded-lg shadow-xl max-w-4xl">
+        <h1 class="text-3xl font-bold text-center mb-6 text-gray-800">日本の気象レーダーマップ(ベータ版) 📡</h1>
+        <p class="text-center text-gray-600 mb-6">
+            地図上に日本の現業気象レーダーの位置と観測範囲を地理院地図上に表示します。<br>
+            <color class="text-blue-500">青色: 気象庁Cバンドレーダー(空港レーダーは除く)</color>　<color class="text-red-500">赤色: XRAIN(Xバンド)</color><br>
+            最大観測範囲: <color class="text-blue-500">気象庁: 半径400 km</color>　<color class="text-red-500">XRAIN(Xバンド): 半径80 km</color><br>
+            定量観測範囲: <color class="text-blue-500">気象庁: 半径120 km(暫定)</color>　<color class="text-red-500">XRAIN(Xバンド): 半径60 km</color><br>
+            ※定量観測範囲の解説は<a href="https://www.river.go.jp/kawabou/kwb_apend/html/xrain3.html" target="_blank" rel="noopener noreferrer"> <color class="text-blue-500">こちら</color></a>。最低観測高度がおおよそ1.5 km以下の範囲に相当。<br>
+            <b>※ベータ版につき、データの誤りや表示の不具合がある可能性があります。ご了承ください。</b>
+        </p>
+
+        <!-- 縦横比を4:3に固定するためのコンテナ-->
+        <div class="relative w-full pb-[75%] rounded-lg shadow-md border border-gray-200">
+            <div id="map" class="absolute inset-0"></div>
+            <div class="crosshair"></div>
+        </div>
+
+        <!--レーダーデータの表示チェックボックス-->
+        <div class="flex justify-center space-x-4 mt-4">
+            <label class="flex items-center">
+                <input type="checkbox" id="jma-checkbox" class="mr-2">
+                <span class="text-gray-700">JMA</span>
+            </label>
+            <label class="flex items-center">
+                <input type="checkbox" id="xrain-checkbox" class="mr-2">
+                <span class="text-gray-700">XRAIN(Xバンド)</span>
+            </label>
+        </div>
+
+        <!-- 観測範囲の切り替えボタン -->
+        <div class="flex justify-center space-x-4 mt-4">
+            <button id="max-radius-btn" class="px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 transition-colors duration-300">
+                最大観測範囲
+            </button>
+            <button id="hq-radius-btn" class="px-4 py-2 bg-gray-300 text-gray-800 font-semibold rounded-lg shadow-md hover:bg-blue-600 transition-colors duration-300">
+                定量観測範囲
+            </button>
+        </div>
+
+        <!-- 中心(赤い十字)の緯度経度を表示 -->
+        <div id="coords" class="text-right text-sm text-gray-600 mt-2">
+            `中心の(緯度, 経度): (N/A, N/A)`;
+        </div>
+
+        <div id="loading" class="text-center text-gray-500 mt-4 hidden">
+            <div class="flex items-center justify-center">
+                <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                <span>データを読み込み中...</span>
+            </div>
+        </div>
+
+        <div id="error-message" class="text-center text-red-500 mt-4 hidden">
+            データの取得に失敗しました。
+        </div>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+
+            // 地図の初期化
+            const map = L.map('map').setView([35.3622222, 138.7313889], 5);
+            const loadingEl = document.getElementById('loading');
+            const errorEl = document.getElementById('error-message');
+
+            // 座標表示の制御
+            const coordsEl = document.getElementById('coords');
+            
+            // 観測モードの制御
+            const maxRadiusBtn = document.getElementById('max-radius-btn');
+            const hqRadiusBtn = document.getElementById('hq-radius-btn');
+
+            // チェックボックスの制御
+            const jmaCheckbox = document.getElementById('jma-checkbox');
+            const xrainCheckbox = document.getElementById('xrain-checkbox');
+
+            // 青色のマーカーアイコン
+            const blueIcon = new L.Icon({
+                iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-blue.png',
+                shadowUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-shadow.png',
+                iconSize: [25, 41],
+                iconAnchor: [12, 41],
+                popupAnchor: [1, -34],
+                shadowSize: [41, 41]
+            });
+            // 赤色のマーカーアイコン
+            const redIcon = new L.Icon({
+                iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
+                shadowUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-shadow.png',
+                iconSize: [25, 41],
+                iconAnchor: [12, 41],
+                popupAnchor: [1, -34],
+                shadowSize: [41, 41]
+            });
+            
+            let radarData_jma = null;
+            let radarData_Xrain_x = null;
+            let currentMarkers = [];
+            let currentCircles = [];
+
+            // 円をクリアする関数
+            function clearMapLayers() {
+                currentMarkers.forEach(marker => map.removeLayer(marker));
+                currentCircles.forEach(circle => map.removeLayer(circle));
+                currentMarkers = [];
+                currentCircles = [];
+            }
+
+            function updateRadarDisplay() {
+                clearMapLayers();
+                let radiusType = maxRadiusBtn.classList.contains('bg-blue-500') ? 'max' : 'hq';
+                
+                if (jmaCheckbox.checked) {
+                    drawMapLayers(radarData_jma, radiusType, blueIcon, 'blue');
+                }
+                if (xrainCheckbox.checked) {
+                    drawMapLayers(radarData_Xrain_x, radiusType, redIcon, 'red');
+                }
+            }
+
+            // 指定された観測範囲と色で円を描画する関数
+            function drawMapLayers(data, radiusType, icon, color) {
+                if (!data) return;
+                
+                data.forEach(radar => {
+                    const marker = L.marker([radar.lat, radar.lon], { icon: icon }).addTo(map);
+                    marker.bindPopup(`<b>${radar.name}</b><br>
+                                     緯度: ${radar.lat.toFixed(4)}<br>
+                                     経度: ${radar.lon.toFixed(4)}<br>
+                                     アンテナ高度: ${radar.height}m<br>
+                                     周波数帯: ${radar.frequency}`);
+                    currentMarkers.push(marker);
+                    
+                    const radiusKm = (radiusType === 'max') ? radar.obsradius_km : radar.obsradius_hq_km;
+                    const circle = L.circle([radar.lat, radar.lon], {
+                        color: color,
+                        fillColor: color,
+                        fillOpacity: 0.1,
+                        radius: radiusKm * 1000
+                    }).addTo(map);
+                    currentCircles.push(circle);
+                });
+            }
+
+            // 地図の中心が変更されたときに座標を更新
+            function updateCoords() {
+                const center = map.getCenter();
+                coordsEl.textContent = `中心の(緯度, 経度): (${center.lat.toFixed(4)}, ${center.lng.toFixed(4)})`;
+            }
+
+            // 観測範囲の円をまとめて更新する関数
+            function updateMapCircles(radiusType) {
+                clearMapLayers(); // すべての円をクリア
+                if (drawJMA.checked && radarData_jma) {
+                    drawRadarCircles(radarData_jma, radiusType, 'blue');
+                }
+                if (drawXRAINX.checked && radarData_Xrain_x) {
+                    drawRadarCircles(radarData_Xrain_x, radiusType, 'red');
+                }
+            }
+
+            L.tileLayer('https://cyberjapandata.gsi.go.jp/xyz/std/{z}/{x}/{y}.png', {
+                attribution: "<a href='https://maps.gsi.go.jp/development/ichiran.html' target='_blank'>地理院タイル</a>"
+            }).addTo(map);
+
+            map.on('moveend', updateCoords);
+            updateCoords(); // 初期表示
+
+            // Promise.allでデータの読み込みを待機
+            loadingEl.classList.remove('hidden');
+            try {
+                const [jma_data, xrain_x_data] = await Promise.all([
+                    fetch('./data/jma_radars.json').then(res => res.json()),
+                    fetch('./data/xrain_radars_x.json').then(res => res.json())
+                ]);
+                radarData_jma = jma_data;
+                radarData_Xrain_x = xrain_x_data;
+            } catch (error) {
+                console.error('データの取得中にエラーが発生しました:', error);
+                errorEl.classList.remove('hidden');
+            } finally {
+                loadingEl.classList.add('hidden');
+            }
+            
+            // 初回表示
+            jmaCheckbox.checked = true;
+            xrainCheckbox.checked = true;
+            updateRadarDisplay();
+            
+            // ボタンクリックイベントリスナー
+            maxRadiusBtn.addEventListener('click', () => {
+                maxRadiusBtn.classList.remove('bg-gray-300', 'text-gray-800');
+                maxRadiusBtn.classList.add('bg-blue-500', 'text-white');
+                hqRadiusBtn.classList.remove('bg-blue-500', 'text-white');
+                hqRadiusBtn.classList.add('bg-gray-300', 'text-gray-800');
+                updateRadarDisplay();
+            });
+
+            hqRadiusBtn.addEventListener('click', () => {
+                hqRadiusBtn.classList.remove('bg-gray-300', 'text-gray-800');
+                hqRadiusBtn.classList.add('bg-blue-500', 'text-white');
+                maxRadiusBtn.classList.remove('bg-blue-500', 'text-white');
+                maxRadiusBtn.classList.add('bg-gray-300', 'text-gray-800');
+                updateRadarDisplay();
+            });
+
+            // チェックボックスの変更イベントリスナー
+            jmaCheckbox.addEventListener('change', updateRadarDisplay);
+            xrainCheckbox.addEventListener('change', updateRadarDisplay);
+
+        });
+    </script>
+
+</body>
+
+<footer style="text-align:center" class="p-2 text-center">
+    <small>Copyright (C) 2025 NISHII, Akira. ALL Rights Reserved.</small><br>
+    <a href="../tech_home.html" class="text-blue-500">技術ページに戻る</a>
+</footer>
+
+</html>
